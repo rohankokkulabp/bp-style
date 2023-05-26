@@ -3,14 +3,16 @@ import { HexColorPicker, HexColorInput } from "react-colorful";
 import useClickOutside from "./useClickOutside";
 import useClickOutside2 from "./useClickOutside2";
 import GenerateCSSButton from "./GenerateCSSButton";
+import { ListBots } from "./listBots";
+import BotpressWebChat from "./BotpressWebChat";
 export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
   const popover = useRef();
   const popover2 = useRef();
   const [isOpen, toggle] = useState(false);
   const [isOpen2, toggle2] = useState(false);
-  const [rectangleColor, setRectangleColor] = useState("#000000"); // Initial color of the rectangle
-  const [rectangleColor2, setRectangleColor2] = useState("#000000");
-  const [rectangleColor3, setRectangleColor3] = useState("#000000");
+  const [rectangleColor, setRectangleColor] = useState("#4f9ec0"); // Initial color of the rectangle
+  const [rectangleColor2, setRectangleColor2] = useState("#cee4ed");
+  const [rectangleColor3, setRectangleColor3] = useState("#84bbd3");
   const close = useCallback(() => toggle(false), []);
   const close2 = useCallback(() => toggle2(false), []);
   useClickOutside(popover, close);
@@ -80,40 +82,57 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
   return (
     <>
       <div className="picker">
-        <div
-          className="swatch"
-          style={{ backgroundColor: color }}
-          onClick={() => toggle(true)}
-        />
-        <HexColorInput color={color} onChange={handleColorChange} />
-
-        {isOpen && (
-          <div className="popover" ref={popover}>
-            <HexColorPicker color={color} onChange={handleColorChange} />
+        
+        <div className="pickers">
+          <div className="theme-selector">
+            <div
+              className="swatch"
+              style={{ backgroundColor: color }}
+              onClick={() => toggle(true)}
+            />
+            <HexColorInput color={color} onChange={handleColorChange} className="color-input" />
+            {isOpen && (
+              <div className="popover" ref={popover}>
+                <HexColorPicker color={color} onChange={handleColorChange} />
+              </div>
+            )}
           </div>
-        )}
-        <div
-          className="swatch"
-          style={{ backgroundColor: color2 }}
-          onClick={() => toggle2(true)}
-        />
-        <HexColorInput color={color2} onChange={handleColorChange2} />
-        {isOpen2 && (
-          <div className="popover" ref={popover2}>
-            <HexColorPicker color2={color2} onChange={handleColorChange2} />
+          <div className="theme-selector">
+          <div
+            className="swatch"
+            style={{ backgroundColor: color2 }}
+            onClick={() => toggle2(true)}
+          />
+          <HexColorInput color={color2} onChange={handleColorChange2} className="color-input" />
+          {isOpen2 && (
+            <div className="popover" ref={popover2}>
+              <HexColorPicker color2={color2} onChange={handleColorChange2} />
+            </div>
+          )}
           </div>
-        )}
-
-        <div
-          className="bpw-header-container"
-          style={{ backgroundColor: rectangleColor }}
-        >
-          <h3 contenteditable="true" spellCheck="false">
-            Chatbot Name
-          </h3>
-          <p contenteditable="true" spellCheck="false">
-            Description
-          </p>
+        </div>
+        <div className="generator">
+          <textarea
+            contenteditable="true"
+            value={cssContent}
+            className="css-box"
+          >
+            CSS AREA
+          </textarea>
+          <ListBots cssContent={cssContent} />
+        </div>
+        <div className="container">
+          <div
+            className="bpw-header-container"
+            style={{ backgroundColor: rectangleColor }}
+          >
+            <h3 contenteditable="true" spellCheck="false">
+              Chatbot Name
+            </h3>
+            <p contenteditable="true" spellCheck="false">
+              Description
+            </p>
+          </div>
           <div
             className="rectangle2"
             style={{ backgroundColor: rectangleColor2 }}
@@ -128,7 +147,7 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
               className="bpw-from-bot"
               style={{ backgroundColor: rectangleColor }}
             >
-              <p>Botpress X Webchat 2.0</p>
+              <p>Botpress x Webchat 2.0</p>
             </div>
             <div
               className="bpw-from-user"
@@ -138,12 +157,6 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="generator">
-        <textarea value={cssContent} className="css-box">
-          works dude
-        </textarea>
-        <GenerateCSSButton cssContent={cssContent} />
       </div>
     </>
   );
