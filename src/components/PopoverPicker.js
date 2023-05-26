@@ -2,16 +2,14 @@ import React, { useCallback, useRef, useState } from "react";
 import { HexColorPicker, HexColorInput } from "react-colorful";
 import useClickOutside from "./useClickOutside";
 import useClickOutside2 from "./useClickOutside2";
-import GenerateCSSButton from "./GenerateCSSButton";
 import { ListBots } from "./listBots";
-import BotpressWebChat from "./BotpressWebChat";
 export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
   const popover = useRef();
   const popover2 = useRef();
   const [isOpen, toggle] = useState(false);
   const [isOpen2, toggle2] = useState(false);
-  const [rectangleColor, setRectangleColor] = useState("#4f9ec0"); // Initial color of the rectangle
-  const [rectangleColor2, setRectangleColor2] = useState("#cee4ed");
+  const [rectangleColor, setRectangleColor] = useState("#8d71bc"); // Initial color of the rectangle
+  const [rectangleColor2, setRectangleColor2] = useState("#d3c8e5");
   const [rectangleColor3, setRectangleColor3] = useState("#84bbd3");
   const close = useCallback(() => toggle(false), []);
   const close2 = useCallback(() => toggle2(false), []);
@@ -77,12 +75,44 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
 }
 .chat-bubble2 {
     background-color: ${rectangleColor3};
-}`;
+}
+.bpw-header-container{
+  border: none;
+}
+
+.bpw-layout{
+  width: 200px;
+  border: none;
+}
+.bpw-header-name{
+  color: ${rectangleColor2};
+}
+
+.bpw-layout{
+  height: 60%;
+  right: 30px;
+}
+
+.bpw-header-container{
+  color: ${rectangleColor2};
+}
+
+.bpw-header-icon, .bpw-header-icon svg, .bpw-header-icon svg path {
+  fill: ${rectangleColor2};
+}
+
+.bpw-chat-container{
+  background-color: ${rectangleColor2};
+}
+
+.bpw-composer{
+  background-color: ${rectangleColor2};
+}
+`;
 
   return (
     <>
       <div className="picker">
-        
         <div className="pickers">
           <div className="theme-selector">
             <div
@@ -90,7 +120,11 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
               style={{ backgroundColor: color }}
               onClick={() => toggle(true)}
             />
-            <HexColorInput color={color} onChange={handleColorChange} className="color-input" />
+            <HexColorInput
+              color={color}
+              onChange={handleColorChange}
+              className="color-input"
+            />
             {isOpen && (
               <div className="popover" ref={popover}>
                 <HexColorPicker color={color} onChange={handleColorChange} />
@@ -98,17 +132,21 @@ export const PopoverPicker = ({ color, color2, onChange, onChange2 }) => {
             )}
           </div>
           <div className="theme-selector">
-          <div
-            className="swatch"
-            style={{ backgroundColor: color2 }}
-            onClick={() => toggle2(true)}
-          />
-          <HexColorInput color={color2} onChange={handleColorChange2} className="color-input" />
-          {isOpen2 && (
-            <div className="popover" ref={popover2}>
-              <HexColorPicker color2={color2} onChange={handleColorChange2} />
-            </div>
-          )}
+            <div
+              className="swatch"
+              style={{ backgroundColor: color2 }}
+              onClick={() => toggle2(true)}
+            />
+            <HexColorInput
+              color={color2}
+              onChange={handleColorChange2}
+              className="color-input"
+            />
+            {isOpen2 && (
+              <div className="popover" ref={popover2}>
+                <HexColorPicker color2={color2} onChange={handleColorChange2} />
+              </div>
+            )}
           </div>
         </div>
         <div className="generator">

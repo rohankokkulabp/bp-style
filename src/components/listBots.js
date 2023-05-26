@@ -101,26 +101,62 @@ export const ListBots = ({ cssContent }) => {
   const handleGenerateCSS = async () => {
     console.log(selectedBotId);
     try {
-      const response = await fetch(
-        "https://nextpress-css.vercel.app/generate-css",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ botId: selectedBotId, cssContent }),
-        }
-      );
+      const response = await fetch("http://localhost:3000/generate-css", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ botId: selectedBotId, cssContent }),
+      });
 
       if (response.ok) {
         const filePath = await response.text();
-        console.log("CSS generation successful");
-        setGeneratedCSSPath(filePath);
+        const randomNum = Math.floor(Math.random() * 1000); // Generate a random number
+        const filePathWithRandom = `${filePath}?random=${randomNum}`; // Append the random number to the filePath
+        console.log(`CSS generation successful : ${filePathWithRandom}`);
+        setGeneratedCSSPath(filePathWithRandom);
       } else {
         console.log("CSS generation failed");
       }
     } catch (error) {
       console.log("Error generating CSS:", error);
+    }
+
+    if (window.botpressWebChat) {
+      window.botpressWebChat.configure({
+        botId: selectedBotId,
+        hostUrl: "https://cdn.botpress.cloud/webchat/v0",
+        messagingUrl: "https://messaging.botpress.cloud",
+        clientId: selectedBotId,
+        disableAnimations: true,
+        stylesheet: generatedCSSPath,
+        botName: "Works"
+      });
+      window.botpressWebChat.onEvent(
+        function () {
+          window.botpressWebChat.sendEvent({ type: "show" });
+        },
+
+        ["LIFECYCLE.LOADED"]
+      );
+    }
+    if (window.botpressWebChat.configure) {
+      window.botpressWebChat.configure({
+        botId: selectedBotId,
+        hostUrl: "https://cdn.botpress.cloud/webchat/v0",
+        messagingUrl: "https://messaging.botpress.cloud",
+        clientId: selectedBotId,
+        disableAnimations: true,
+        stylesheet: generatedCSSPath,
+        botName: "Works"
+      });
+      window.botpressWebChat.onEvent(
+        function () {
+          window.botpressWebChat.sendEvent({ type: "show" });
+        },
+
+        ["LIFECYCLE.LOADED"]
+      );
     }
   };
 
@@ -185,7 +221,7 @@ export const ListBots = ({ cssContent }) => {
         Generate Stylesheet URL
       </button>
       <p>{generatedCSSPath}</p>
-      {/* <BotpressWebChat botId={selectedBotId} cssfilepath={generatedCSSPath} /> */}
+      <BotpressWebChat botId={selectedBotId} cssfilepath={generatedCSSPath} />
     </div>
   );
 };
