@@ -101,13 +101,16 @@ export const ListBots = ({ cssContent }) => {
   const handleGenerateCSS = async () => {
     console.log(selectedBotId);
     try {
-      const response = await fetch("http://localhost:3000/generate-css", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ botId: selectedBotId, cssContent }),
-      });
+      const response = await fetch(
+        "https://nextpress-css.vercel.app/generate-css",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ botId: selectedBotId, cssContent }),
+        }
+      );
 
       if (response.ok) {
         const filePath = await response.text();
